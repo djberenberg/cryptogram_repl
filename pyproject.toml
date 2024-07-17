@@ -14,7 +14,7 @@ dev = [
 ]
 
 [project.scripts]
-cryptogram = "cryptogram_repl.cli:cli"
+cryptogram = "cryptogram_repl._cli:cli"
 
 
 [build-system]
