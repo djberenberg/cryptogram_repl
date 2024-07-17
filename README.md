@@ -4,7 +4,6 @@ Solve NYT cryptogram puzzles easier
 
 ![picture](assets/repl_in_action.png)
 
-
 usage: `cryptogram [-h] puzzle_file`
 
 ```

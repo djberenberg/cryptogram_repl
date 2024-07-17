@@ -14,6 +14,7 @@ PROMPT = f"Enter a command ({SUB}, {REV}, or {EXP}) "
 PUZZLE_PRFX = color_text("Puzzle".ljust(10), [ColorEnum.FAIL, ColorEnum.BOLD])
 SOLN_PRFX = color_text("Solution".ljust(10), [ColorEnum.HEADER, ColorEnum.BOLD])
 
+
 SOURCE = color_text("Source", [ColorEnum.BOLD, ColorEnum.UNDERLINE])
 TARGET = color_text("Target", [ColorEnum.BOLD, ColorEnum.UNDERLINE])
 
