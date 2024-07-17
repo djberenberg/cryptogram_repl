@@ -2,8 +2,6 @@
 
 Solve NYT cryptogram puzzles easier
 
-![picture](assets/repl_in_action.png)
-
 usage: `cryptogram_repl.py [-h] puzzle_file`
 
 You have 3 commands:
