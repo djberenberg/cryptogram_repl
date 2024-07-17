@@ -5,4 +5,4 @@ def color_text(text: str, application: ColorEnum | list[ColorEnum]) -> str:
 
     colors = "".join([application] if isinstance(application, ColorEnum) else application)
 
-    return f"{colors}{text}{ColorEnum.ENDC}"
+    return rf"{colors}{text}{ColorEnum.ENDC}"
