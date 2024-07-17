@@ -63,14 +63,21 @@ class CryptogramREPL:
         return "".join(self.cipher[c] if c in self.cipher else c for c in string)
         
     
-    def substitute(self, from_letters: str, to_letters: str):
+    def substitute(self, args: list[str]):
+        if len(args) < 2:
+            raise ValueError("Substitute: Not enough args!")
+
+        from_letters, to_letters, *_ = args
+
         if len(from_letters) != len(to_letters):
-            raise ValueError("Not the same length for substitution")
+            raise ValueError("Substitute: Not the same length for substitution")
+
+
 
         for f, t in zip(from_letters, to_letters):
         
             if f not in self.cipher or t not in self.cipher:
-                raise ValueError(f"Bad substitution {f} -> {t}")
+                raise ValueError(f"Substitute: Bad substitution {f} -> {t}")
 
         for f, t in zip(from_letters, to_letters):
             self.cipher[f] = t
@@ -92,20 +99,31 @@ class CryptogramREPL:
                 print(f"{bcolors.BOLD}{bcolors.FAIL}{s:<7s}{bcolors.ENDC} --> {bcolors.BOLD}{bcolors.OKBLUE}{t}{bcolors.ENDC}")
             else:
                 print(f"{s:<7s} --> {t:<7s}")
+
+    def quit(self):
+
+        print("Quitting")
+        sys.exit(0)
     
     def process_command(self, input_command: str):
-        if input_command.startswith("export") or input_command.startswith("x"):
-            self.export()
-        else:
-            command, args = input_command.split(" ", maxsplit=1)
 
-            match command:
-                case "substitute" | "sub" | "s":
-                    from_, to_ = args.split(" ")
-                    self.substitute(from_, to_)
+        if not input_command:
+            raise ValueError("No command provided")
+        
+        command, *args = input_command.split(" ")
+
+        match command:
+            case "substitute" | "sub" | "s":
+                self.substitute(args)
                 
-                case "revert" | "rev" | "r":
-                    self.revert(args)
+            case "revert" | "rev" | "r":
+                self.revert(args)
+
+            case "export" | "x":
+                self.export()
+
+            case "quit" | "q":
+                self.quit()
 
 
     def print(self):
