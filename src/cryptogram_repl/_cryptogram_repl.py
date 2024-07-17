@@ -1,8 +1,10 @@
+import string
 import sys
 import textwrap
 from dataclasses import dataclass, field
 from io import StringIO
 
+from ._apply_cipher import apply_cipher
 from ._color_enum import ColorEnum
 from ._color_text import color_text
 
@@ -26,7 +28,7 @@ class CryptogramREPL:
     cipher: dict[str, str] = field(init=False)
 
     def __post_init__(self):
-        self.cipher = {char: char for char in "ABCDEFGHIJKLMNOPQRSTUVWXYZ"}
+        self.cipher = dict(zip(string.ascii_uppercase, string.ascii_uppercase))
 
     @property
     def _back_cipher(self) -> dict[str, str]:
@@ -34,7 +36,7 @@ class CryptogramREPL:
 
     def apply_cipher(self, string: str) -> str:
 
-        return "".join(self.cipher[c] if c in self.cipher else c for c in string)
+        return apply_cipher(string, self.cipher)
 
     def substitute(self, args: list[str]):
         if len(args) < 2:

@@ -1,23 +1,12 @@
-import collections
 import itertools
 import math
 import string
 from collections import Counter
-from typing import Iterable, TypeVar
+from typing import Iterable
 
-T = TypeVar("T")
+from ._sliding_window import sliding_window
 
 CHAR_SET = set(string.ascii_uppercase)
-
-
-def _sliding_window(iterable: Iterable[T], n: int) -> Iterable[tuple[T, ...]]:
-    "Collect data into overlapping fixed-length chunks or blocks."
-    # sliding_window('ABCDEFG', 4) → ABCD BCDE CDEF DEFG
-    iterator = iter(iterable)
-    window = collections.deque(itertools.islice(iterator, n - 1), maxlen=n)
-    for x in iterator:
-        window.append(x)
-        yield tuple(window)
 
 
 def compute_ngram_log_probs(iterator: Iterable[str], n: int) -> dict[str, float]:
@@ -27,7 +16,7 @@ def compute_ngram_log_probs(iterator: Iterable[str], n: int) -> dict[str, float]
             map(
                 "".join,
                 itertools.chain.from_iterable(
-                    _sliding_window(x, n) for x in map(lambda x: x.casefold().upper(), iterator)
+                    sliding_window(x, n) for x in map(lambda x: x.casefold().upper(), iterator)
                 ),
             ),
         )
