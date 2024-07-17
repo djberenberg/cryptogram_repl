@@ -17,6 +17,7 @@ Export the cipher you've created.
 
 import argparse
 
+from ._compute_ngram_log_probs import compute_ngram_log_probs
 from ._cryptogram_repl import CryptogramREPL
 
 
@@ -25,11 +26,37 @@ def cli():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawTextHelpFormatter
     )
-    parser.add_argument("puzzle_file", type=str, help="Input puzzle as a single-line text file.")
+
+    subparsers = parser.add_subparsers()
+    parser_repl = subparsers.add_parser("repl", help=__doc__)
+    parser_repl.set_defaults(command="repl")
+
+    parser_repl.add_argument(
+        "puzzle_file", type=str, help="Input puzzle as a single-line text file."
+    )
+
+    parser_ngrams = subparsers.add_parser(
+        "compute-logprobs", help="Compute n-gram log-probabilities"
+    )
+
+    parser_ngrams.set_defaults(command="logprobs")
+    parser_ngrams.add_argument("input_txt_file", type=str, help="Text file to calibrate log probs.")
+    parser_ngrams.add_argument("-n", type=int, default=4, help="Window size")
 
     args = parser.parse_args()
 
-    with open(args.puzzle_file, "r") as f:
-        puzzle = f.read().strip()
+    args = parser.parse_args()
 
-    CryptogramREPL(puzzle).run()
+    match args.command:
+        case "repl":
+            with open(args.puzzle_file, "r") as f:
+                puzzle = f.read().strip()
+
+            CryptogramREPL(puzzle).run()
+
+        case "logprobs":
+
+            with open(args.input_txt_file, "r") as f:
+                ngram_logprobs = compute_ngram_log_probs(f, args.n)
+                for ngram in sorted(ngram_logprobs):
+                    print(f"{ngram} {ngram_logprobs[ngram]}")
