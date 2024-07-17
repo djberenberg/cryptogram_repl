@@ -35,7 +35,7 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 
-PROMPT = f"Enter a command ({bcolors.FAIL}substitute{bcolors.ENDC} or {bcolors.OKGREEN}revert{bcolors.ENDC}) "
+PROMPT = f"Enter a command ({bcolors.FAIL}substitute{bcolors.ENDC}, {bcolors.OKGREEN}revert{bcolors.ENDC}, or {bcolors.OKBLUE}export{bcolors.ENDC}) "
 PUZZLE_PRFX = f"{bcolors.FAIL}{bcolors.BOLD}{'Puzzle':<10s}{bcolors.ENDC}"
 SOLN_PRFX = f"{bcolors.HEADER}{bcolors.BOLD}{'Solution':<10s}{bcolors.ENDC}"
 
